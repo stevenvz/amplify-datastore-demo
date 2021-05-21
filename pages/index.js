@@ -2,29 +2,29 @@ import styles from '../styles/Home.module.css'
 import { DataStore } from 'aws-amplify'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Tower } from '../models'
+import { Behavior } from '../src/models'
 
 export default function Home() {
-  const [towers, setTowers] = useState([])
+  const [behaviors, setBehaviors] = useState([])
 
   useEffect(() => {
-    fetchTowers()
-    async function fetchTowers() {
-      const towerData = await DataStore.query(Tower)
-      setTowers(towerData)
+    fetchBehaviors()
+    async function fetchBehaviors() {
+      const behaviorData = await DataStore.query(Behavior)
+      setBehaviors(behaviorData)
     }
-    const subscription = DataStore.observe(Tower).subscribe(() => fetchTowers())
+    const subscription = DataStore.observe(Behavior).subscribe(() => fetchBehaviors())
     return () => subscription.unsubscribe()
   }, [])
   
   return (
     <div className={styles.container}>
-      <h1>Towers</h1>
+      <h1>Behaviors</h1>
       {
-        towers.map(tower => (
-          <Link href={`/towers/${tower.id}`}>
+        behaviors.map(behavior => (
+          <Link href={`/behaviors/${behavior.id}`}>
             <a>
-              <h2>{tower.title}</h2>
+              <h2>{behavior.title}</h2>
             </a>
           </Link>
         ))
@@ -32,4 +32,3 @@ export default function Home() {
     </div>
   )
 }
-JavaScript
