@@ -34,9 +34,9 @@ export default function Home() {
     e.preventDefault();
     try {
       await DataStore.delete(Behavior, id);
-      console.log("Behavior cleared successfully!");
+      console.log("Behavior deleted successfully!");
     } catch (error) {
-      console.log("Error clearing behavior", error);
+      console.log("Error deleted behavior", error);
     }
   }
   
