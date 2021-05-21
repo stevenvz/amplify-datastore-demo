@@ -1,7 +1,7 @@
 import styles from '../styles/Home.module.css'
 import { DataStore } from 'aws-amplify'
 import { useState, useEffect } from 'react'
-import { Behavior } from '../src/models'
+import { Behavior } from '../models'
 
 export default function Home() {
   const [behaviors, setBehaviors] = useState([])
