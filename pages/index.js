@@ -1,7 +1,6 @@
 import styles from '../styles/Home.module.css'
 import { DataStore } from 'aws-amplify'
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { Behavior } from '../src/models'
 
 export default function Home() {
@@ -30,14 +29,31 @@ export default function Home() {
       console.log("Error saving behavior", error);
     }
   }
+
+  const deleteBehavior = (id) => async (e) => {
+    e.preventDefault();
+    try {
+      await DataStore.delete(Behavior, id);
+      console.log("Behavior cleared successfully!");
+    } catch (error) {
+      console.log("Error clearing behavior", error);
+    }
+  }
   
   return (
     <div className={styles.container}>
-      <button onClick={addBehavior}>Add Behavior</button>
-      <h1>Behaviors</h1>
+      <div className={styles.headerContainer}>
+        <h1 className={styles.header}>Behaviors</h1>
+        <div>
+          <button onClick={addBehavior} className={styles.button}>Add Behavior</button>
+        </div>
+      </div>
       {
-        behaviors.map(behavior => (
-          <p>{behavior.label}</p>
+        behaviors.reverse().map(behavior => (
+          <div className={styles.behaviorContainer}>
+            <p key={behavior.label} className={styles.behaviorLabel}>{behavior.label}</p>
+            <button onClick={deleteBehavior(behavior.id)} className={styles.deleteButton}>Delete</button>
+          </div>
         ))
       }
     </div>
