@@ -16,17 +16,28 @@ export default function Home() {
     const subscription = DataStore.observe(Behavior).subscribe(() => fetchBehaviors())
     return () => subscription.unsubscribe()
   }, [])
+
+  const addBehavior = async (e) => {
+    e.preventDefault();
+    try {
+      await DataStore.save(
+        new Behavior({
+          label: `Behavior ${Math.floor(Math.random() * 100001)}`
+        })
+      );
+      console.log("Behavior saved successfully!");
+    } catch (error) {
+      console.log("Error saving behavior", error);
+    }
+  }
   
   return (
     <div className={styles.container}>
+      <button onClick={addBehavior}>Add Behavior</button>
       <h1>Behaviors</h1>
       {
         behaviors.map(behavior => (
-          <Link href={`/behaviors/${behavior.id}`}>
-            <a>
-              <h2>{behavior.title}</h2>
-            </a>
-          </Link>
+          <p>{behavior.label}</p>
         ))
       }
     </div>
